@@ -4,7 +4,7 @@ package com.mologue.contentSale.dataDefine;
  * Created by wanru_h on 2018/6/16
  * 对应于 业务层中  购物车内每一个对象
  */
-public class shoppingCarItem {
+public class ShoppingCarItem {
     private long itemId;
     private String userName;
     private long contentId;

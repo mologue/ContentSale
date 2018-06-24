@@ -2,18 +2,26 @@ package com.mologue.contentSale.domain;
 
 /**与数据库的`shoppingCar`对应的实体类*/
 public class ShoppingCar {
-    private long itemId;
+    private long carItemId;
     private String userName;
     private long contentId;
     private int amount;
     private String date;
 
-    public long getItemId() {
-        return itemId;
+    public String getDate() {
+        return date;
     }
 
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public long getCarItemId() {
+        return carItemId;
+    }
+
+    public void setCarItemId(long itemId) {
+        this.carItemId = itemId;
     }
 
     public String getUserName() {

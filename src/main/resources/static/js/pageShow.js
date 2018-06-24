@@ -30,25 +30,25 @@
 	$('add').onclick = function(e){
 		var ele = e.target;
 		var id = ele && ele.dataset.id;
-		var title = ele && ele.dataset.title;
-		var price = ele && ele.dataset.price;
+		// var title = ele && ele.dataset.title;
+		// var price = ele && ele.dataset.price;
 		var num = $('allNum').innerHTML;
-		var contentDetail = {'id':id,'price':price,'title':title,'num':num};
-		var name = 'contents';
-		var contentList1 = new Array;
-		var contentList = util.getCookie(name);
+		// var contentDetail = {'id':id,'price':price,'title':title,'num':num};
+		// var name = 'contents';
+		// var contentList1 = new Array;
+		// var contentList = util.getCookie(name);
 
-		ajaxAdd(id,num)
-		if(contentList == "" || contentList == null){
-			contentList1.push(contentDetail);
-			util.setCookie(name,contentList1);
-		}else if(util.findOne(contentList,id)){
-			util.modifyTwo(contentList,id,num);
-			util.setCookie(name,contentList);
-		}else{	
-			contentList.push(contentDetail);
-			util.setCookie(name,contentList);
-		}
+		// ajaxAdd(id,num)
+		// if(contentList == "" || contentList == null){
+		// 	contentList1.push(contentDetail);
+		// 	util.setCookie(name,contentList1);
+		// }else if(util.findOne(contentList,id)){
+		// 	util.modifyTwo(contentList,id,num);
+		// 	util.setCookie(name,contentList);
+		// }else{
+		// 	contentList.push(contentDetail);
+		// 	util.setCookie(name,contentList);
+		// }
 		console.log(document.cookie);
 //		util.deleteCookie(name);
 		e == window.event || e;
@@ -58,10 +58,19 @@
 				layer.hide();
 				loading.show();
 				loading.result('添加购物车成功');
+                ajaxAdd(id,num);
 			}.bind(this)
 		}).show();
 		return;
 	};
+
+    function ajaxAdd(id,num) {
+
+        ajax({
+            data:{"id":id,"num":num},
+            url:'/addShopping',
+        });
+    }
 
 
 

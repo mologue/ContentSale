@@ -24,4 +24,7 @@ public interface UserDAO {
             @Result(property = "userType",column = "userType")
     })
     User getUserByName(String userName);
+
+    @Insert("insert into `user` (userName,password,userType) VALUES (#{userName},#{password},#{userType});")
+    void registerNewUser(User user);
 }

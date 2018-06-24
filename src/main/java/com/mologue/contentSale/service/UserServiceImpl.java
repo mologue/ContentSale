@@ -32,6 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerNewUser(User user) {
-
+        userDAO.registerNewUser(user);
     }
 }

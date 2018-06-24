@@ -97,7 +97,7 @@ select.u-ipt{width:auto;padding:0;line-height:1;}
 .m-form-ht{display:table;table-layout:auto;border-spacing:0;width:100%;}
 .m-form-ht .fmitem{display:table-row;}
 .m-form-ht .fmitem:first-child .fmlab,.m-form-ht .fmitem:first-child .fmipt{padding-top:0;}
-.m-form-ht .fmitem-nolab:before{display:table-cell;content:" ";}
+/*.m-form-ht .fmitem-nolab:before{display:table-cell;content:" ";}*/
 .m-form-ht .fmlab,.m-form-ht .fmipt{display:table-cell;padding-top:20px;margin:0;}
 .m-form-ht .fmlab{width:1em;padding-right:5px;word-wrap:normal;white-space:nowrap;text-align:right;}
 

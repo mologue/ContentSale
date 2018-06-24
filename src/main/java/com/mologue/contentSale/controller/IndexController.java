@@ -52,4 +52,19 @@ public class IndexController {
 
         return "index";
     }
+
+//    public String searchContent(ModelMap modelMap, HttpServletRequest request,
+//                                @RequestParam(value = "keyWord") String keyWord,
+//                                @RequestParam(value = "type",required = false)Integer type){
+//        User user = UserSessionUtil.getUser(request);
+//        if(user!=null){
+//            modelMap.addAttribute("user",user);
+//        }
+//        if(type==null){
+//            type = 0;
+//        }
+//        HashMap<String,Integer> typeMap = new HashMap<String, Integer>();
+//        typeMap.put("listType",type);
+//        modelMap.addAttribute("RequestParameters",typeMap);
+//    }
 }

@@ -1,9 +1,12 @@
 package com.mologue.contentSale.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.mologue.contentSale.dataDefine.ShoppingCarItem;
 import com.mologue.contentSale.dataDefine.TradeInfo;
 import com.mologue.contentSale.domain.Content;
 import com.mologue.contentSale.domain.Order;
+import com.mologue.contentSale.domain.ShoppingCar;
 import com.mologue.contentSale.domain.User;
 import com.mologue.contentSale.service.serviceInterface.ContentService;
 import com.mologue.contentSale.service.serviceInterface.OrderService;
@@ -15,11 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,8 +37,8 @@ public class TradeController {
     private OrderService orderService;
     @Autowired
     private ContentService contentService;
-//    @Autowired
-//    private ShoppingCarService shoppingCarService;
+    @Autowired
+    private ShoppingCarService shoppingCarService;
 
     @RequestMapping(value = "/account")
     public String showAccountInfo(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap){
@@ -46,23 +51,50 @@ public class TradeController {
         return "account";
     }
 
+    @RequestMapping(value = "/addShopping")
+    @ResponseBody
+    public void addNewToShoppingCar(HttpServletRequest request,@RequestParam("id") long contentId, @RequestParam("num") int num){
+        User user = UserSessionUtil.getUser(request);
+        ShoppingCar shoppingCar = new ShoppingCar();
+        shoppingCar.setUserName(user==null?"":user.getUserName());
+        shoppingCar.setAmount(num);
+        shoppingCar.setContentId(contentId);
+        shoppingCar.setDate(DateUtil.date2String(new Date()));
+        shoppingCarService.addNewShoppingItem(shoppingCar);
+    }
+
     @RequestMapping(value = "/settleAccount")
     public String settleAccount(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
         User user = UserSessionUtil.getUser(request);
         if(user!=null){
             modelMap.addAttribute("user",user);
+            List<ShoppingCarItem> shoppingIttemList = shoppingCarService.getAllShoppingListForUser(user.getUserName());
+            modelMap.addAttribute("shoppingItemList",shoppingIttemList);
         }
         return "settleAccount";
     }
 
+    @RequestMapping(value = "/api/deleteFromShoppingCar")
+    @ResponseBody
+    public ModelMap doDeleteShoppingItem(@RequestParam("shoppingCarItem") ShoppingCarItem shoppingCarItem,ModelMap modelMap,HttpServletRequest request){
+        shoppingCarService.deleteFromShoppingCar(shoppingCarItem.getItemId());
+        modelMap.addAttribute("code", 200);
+        modelMap.addAttribute("message", "success");
+        return modelMap;
+    }
+
     @RequestMapping(value = "/api/buy")
     @ResponseBody
-    public ModelMap doSettle(@RequestBody List<TradeInfo> buyList, ModelMap modelMap,
-                             HttpServletRequest request, HttpServletResponse response){
+    public String doSettle(@RequestBody List<TradeInfo> buyList, ModelMap modelMap,
+                             HttpServletRequest request){
+        HashMap<String,String> map = new HashMap<>();
         User user = UserSessionUtil.getUser(request);
         String userName = user==null?"":user.getUserName();
         for(TradeInfo tradeInfo:buyList){
             Content content = contentService.getContentById(tradeInfo.getContentId());
+            if(content == null){
+                continue;
+            }
             Order order = new Order();
             order.setUserName(userName);
             order.setContentId(content.getContentId());
@@ -70,14 +102,15 @@ public class TradeController {
             order.setPicture(content.getPicture());
             order.setPrice(content.getPrice());
             order.setAmount(tradeInfo.getNumber());
-            System.out.println("tradeNumber:"+tradeInfo.getNumber());
+//            System.out.println("tradeNumber:"+tradeInfo.getNumber());
             order.setDate(DateUtil.date2String(new Date()));
             orderService.makeNewOrder(order);
+            shoppingCarService.deleteFromShoppingCar(tradeInfo.getContentId());
         }
-        modelMap.addAttribute("code", 200);
-        modelMap.addAttribute("message", "success");
-        modelMap.addAttribute("result",true);
-        return modelMap;
+        map.put("code", "200");
+        map.put("message", "success");
+        map.put("result","true");
+        return JSON.toJSONString(map);
     }
 
 }

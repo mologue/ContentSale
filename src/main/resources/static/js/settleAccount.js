@@ -4,31 +4,22 @@
 		return;
 	}
 	var name = 'contents';
-	var contents = util.getCookie(name);
+	var trds = document.getElementsByTagName("tr");
+	var contents=[];
+	if(trds.length > 1){
+		var i
+		for(i=1;i<trds.length;i++){
+			var tds = trds[i];
+			contents.push({"id":tds.id,
+							"num":tds.children[1].innerText.replace(",","")})
+		}
+	}
 	var $ = function(id){
 		return document.getElementById(id);
 	}
-	
-	var str = "<tr>" + 
-			  "<th>" + '内容名称'  + "</th>"+ 
-			  "<th>" + '数量' + "</th>" +
-			  "<th>" + '价格' + "</th>" +
-			  "</tr>";
 
-	for(var i = 0; i < contents.length; i++){
-		str = str + 
-		"<tr>" + 
-		"<td>" + contents[i].title  + "</td>"+
-    "<td>" +
-    "<span class=\"lessNum\">"+ "-" + "</span>" +
-    "<span class=\"totalNum\" id=\"allNum\">" + contents[i].num + "</span>" +
-    "<span id=\"thisId\">" + contents[i].id + "</span>" +
-    "<span class=\"moreNum\">"+ "+" + "</span>" + "</td>" +
-    "<td>" + contents[i].price + "</td>" +
-    "</tr>";
-}
 
-$("newTable").innerHTML = str;
+
 
 	window.onload = function(){
 		$('newTable').onclick = function(e){
@@ -58,9 +49,9 @@ $("newTable").innerHTML = str;
 	var loading = new Loading();
 	var layer = new Layer();
 	$('Account').onclick = function(e){
-		var newcontents = contents.map(function(arr){
-			return {'id':arr.id,'number':arr.num};
-		});
+            var newcontents = contents.map(function (arr) {
+                return {'contentId': arr.id, 'number': arr.num};
+            });
 		console.log(newcontents);
 		var ele = e.target;
 			layer.reset({
@@ -77,7 +68,7 @@ $("newTable").innerHTML = str;
 				                if(status >= 200 && status < 300 || status == 304){
 				                	var json = JSON.parse(xhr.responseText);
 				                	if(json && json.code == 200){
-				                		loading.result('购买成功',function(){location.href = './account.html';});
+				                		loading.result('购买成功',function(){location.href = './account';});
 				                		util.deleteCookie(name);
 				                	}else{
 				                		alert(json.message);
