@@ -19,6 +19,13 @@ public class OrderServiceImpl implements OrderService {
     private OrderDAO orderDAO;
     @Autowired
     private ContentDAO contentDAO;
+
+    @Override
+    public List<Order> getOrderForUser(String userName, long contentId) {
+        List<Order> orders = orderDAO.getOrderForUser(userName,contentId);
+        return orders;
+    }
+
     @Override
     public List<Order> getAllOrdersForUser(String userName) {
         List<Order> orders = orderDAO.getAllOrderForUser(userName);

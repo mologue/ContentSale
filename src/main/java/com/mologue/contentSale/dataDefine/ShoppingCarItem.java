@@ -5,19 +5,19 @@ package com.mologue.contentSale.dataDefine;
  * 对应于 业务层中  购物车内每一个对象
  */
 public class ShoppingCarItem {
-    private long itemId;
+    private long carItemId;
     private String userName;
     private long contentId;
     private String title;
     private double price;
     private int amount;
 
-    public long getItemId() {
-        return itemId;
+    public long getCarItemId() {
+        return carItemId;
     }
 
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
+    public void setCarItemId(long itemId) {
+        this.carItemId = itemId;
     }
 
     public String getUserName() {

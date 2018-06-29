@@ -16,7 +16,7 @@
         <th> 价格</th>
         </tr>
 	<#list shoppingItemList as x>
-		<tr id="${x.contentId}">
+		<tr id="${x.carItemId}">
 			<td>${x.title}</td>
 			<td>${x.amount}</td>
 			<td>${x.price}</td>

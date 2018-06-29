@@ -40,7 +40,7 @@ public interface OrderDAO {
     })
     Order getOrderByOrderId(long orderId);
 
-    @Select("select * from `order` where userName=#{userName} and orderId=#{orderId}")
+    @Select("select * from `order` where userName=#{userName} and contentId=#{contentId}")
 //    @ResultMap("com.sangmo.dao.OrderMapper.order")
     @Results({
             @Result(id = true,property = "orderId",column = "orderId"),
@@ -52,7 +52,7 @@ public interface OrderDAO {
             @Result(property = "price",column = "price"),
             @Result(property = "amount",column = "amount")
     })
-    Order getOrderForUser(@Param("userName") String userName,@Param("orderId") long orderId);
+    List<Order> getOrderForUser(@Param("userName") String userName,@Param("contentId") long contentId);
 
     @Select("select count(*) from `order` where contentId=#{contentId}")
     int countOrderByContentId(int contentId);

@@ -9,9 +9,9 @@
 	if(trds.length > 1){
 		var i
 		for(i=1;i<trds.length;i++){
-			var tds = trds[i];
-			contents.push({"id":tds.id,
-							"num":tds.children[1].innerText.replace(",","")})
+			var trd = trds[i];
+			contents.push({"carItemId":trd.id,
+							"num":trd.children[1].innerText.replace(",","")})
 		}
 	}
 	var $ = function(id){
@@ -34,10 +34,11 @@
 			}else if(target.nodeName == "SPAN" && target.className == "lessNum"){
 				var num = target.parentElement.children[1].textContent;
 				var id = target.parentElement.children[2].textContent;
-				num --;
-				if(num < 0){
-					alert("该商品数量为0");
+				// num --;
+				if(num <= 1){
+					alert("商品数量不能小于1");
 				}else{
+					num--;
 					target.parentElement.children[1].textContent = num;
 					util.modifyOne(contents,id,num);
 				}
@@ -50,7 +51,7 @@
 	var layer = new Layer();
 	$('Account').onclick = function(e){
             var newcontents = contents.map(function (arr) {
-                return {'contentId': arr.id, 'number': arr.num};
+                return {'carItemId': arr.carItemId, 'number': arr.num};
             });
 		console.log(newcontents);
 		var ele = e.target;
@@ -69,7 +70,7 @@
 				                	var json = JSON.parse(xhr.responseText);
 				                	if(json && json.code == 200){
 				                		loading.result('购买成功',function(){location.href = './account';});
-				                		util.deleteCookie(name);
+				                		// util.deleteCookie(name);
 				                	}else{
 				                		alert(json.message);
 				                	}

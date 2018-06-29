@@ -51,7 +51,7 @@ public class TradeController {
         return "account";
     }
 
-    @RequestMapping(value = "/addShopping")
+    @RequestMapping(value = "/api/addShopping")
     @ResponseBody
     public void addNewToShoppingCar(HttpServletRequest request,@RequestParam("id") long contentId, @RequestParam("num") int num){
         User user = UserSessionUtil.getUser(request);
@@ -77,7 +77,7 @@ public class TradeController {
     @RequestMapping(value = "/api/deleteFromShoppingCar")
     @ResponseBody
     public ModelMap doDeleteShoppingItem(@RequestParam("shoppingCarItem") ShoppingCarItem shoppingCarItem,ModelMap modelMap,HttpServletRequest request){
-        shoppingCarService.deleteFromShoppingCar(shoppingCarItem.getItemId());
+        shoppingCarService.deleteFromShoppingCar(shoppingCarItem.getCarItemId());
         modelMap.addAttribute("code", 200);
         modelMap.addAttribute("message", "success");
         return modelMap;
@@ -91,7 +91,8 @@ public class TradeController {
         User user = UserSessionUtil.getUser(request);
         String userName = user==null?"":user.getUserName();
         for(TradeInfo tradeInfo:buyList){
-            Content content = contentService.getContentById(tradeInfo.getContentId());
+            long contentId = shoppingCarService.getShoppingCarItem(tradeInfo.getCarItemId()).getContentId();
+            Content content = contentService.getContentById(contentId);
             if(content == null){
                 continue;
             }
@@ -102,10 +103,9 @@ public class TradeController {
             order.setPicture(content.getPicture());
             order.setPrice(content.getPrice());
             order.setAmount(tradeInfo.getNumber());
-//            System.out.println("tradeNumber:"+tradeInfo.getNumber());
             order.setDate(DateUtil.date2String(new Date()));
             orderService.makeNewOrder(order);
-            shoppingCarService.deleteFromShoppingCar(tradeInfo.getContentId());
+            shoppingCarService.deleteFromShoppingCar(tradeInfo.getCarItemId());
         }
         map.put("code", "200");
         map.put("message", "success");

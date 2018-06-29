@@ -13,4 +13,5 @@ public interface ShoppingCarService {
     void deleteFromShoppingCar(long itemId);
     void updateShoppingCarList(ShoppingCar shoppingCar);
     List<ShoppingCarItem> getAllShoppingListForUser(String userName);
+    ShoppingCar getShoppingCarItem(long itemId);
 }

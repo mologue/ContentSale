@@ -15,7 +15,6 @@
                     var value1 = userName.value;
                     var value2 = md5(password.value);
                     var value3 = type.value;
-                    // var value2 = password.value;
                     isSubmiting = true;
                     loading.show();
                     ajax({

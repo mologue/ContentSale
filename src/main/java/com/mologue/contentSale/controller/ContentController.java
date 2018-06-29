@@ -1,8 +1,10 @@
 package com.mologue.contentSale.controller;
 
 import com.mologue.contentSale.domain.Content;
+import com.mologue.contentSale.domain.Order;
 import com.mologue.contentSale.domain.User;
 import com.mologue.contentSale.service.serviceInterface.ContentService;
+import com.mologue.contentSale.service.serviceInterface.OrderService;
 import com.mologue.contentSale.util.UserSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by wanru_h on 2018/6/16
@@ -26,15 +29,23 @@ public class ContentController {
 
     @Autowired
     private ContentService contentService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(value = "/show")
     public String showContent(HttpServletRequest request, HttpServletResponse response,
-                              ModelMap modelMap, @RequestParam("id") int id) {
+                              ModelMap modelMap, @RequestParam("id") long id) {
         User user = UserSessionUtil.getUser(request);
         if (user != null) {
             modelMap.addAttribute("user", user);
         }
         Content content = contentService.getContentById(id);
+        List<Order> orders = orderService.getOrderForUser(user.getUserName(),id);
+        if(orders!=null && orders.size()>0){
+            content.setHasBought(true);
+            content.setBuyNum(orders.get(orders.size()-1).getAmount());
+            content.setBuyPrice(orders.get(orders.size()-1).getPrice());
+        }
         modelMap.addAttribute("content", content);
         return "show";
     }

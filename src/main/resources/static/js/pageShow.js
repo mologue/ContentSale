@@ -52,23 +52,27 @@
 		console.log(document.cookie);
 //		util.deleteCookie(name);
 		e == window.event || e;
-		layer.reset({
-			content:'确认加入购物车吗？',
-			onconfirm:function(){
-				layer.hide();
-				loading.show();
-				loading.result('添加购物车成功');
-                ajaxAdd(id,num);
-			}.bind(this)
-		}).show();
-		return;
+		if(num<=0){
+            alert("购买数量必须大于0");
+		}else{
+            layer.reset({
+                content:'确认加入购物车吗？',
+                onconfirm:function(){
+                    layer.hide();
+                    loading.show();
+                    loading.result('添加购物车成功');
+                    ajaxAdd(id,num);
+                }.bind(this)
+            }).show();
+            return;
+		}
 	};
 
     function ajaxAdd(id,num) {
 
         ajax({
             data:{"id":id,"num":num},
-            url:'/addShopping',
+            url:'/api/addShopping',
         });
     }
 
