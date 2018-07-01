@@ -1,5 +1,5 @@
-INSERT INTO `user` VALUES ('1', 'buyer', '37254660e226ea65ce6f1efd54233424', '0');
-INSERT INTO `user` VALUES ('2', 'seller', '981c57a5cfb0f868e064904b8745766f', '1');
+INSERT INTO `user` VALUES ('1', 'buyer', '9b165e49da3c5629a2dce8f7d7abbdd7025973d5', '0');
+INSERT INTO `user` VALUES ('2', 'seller', '7206cc537a3c6317b542c372bd5cc7c0e7b2c884', '1');
 
 INSERT INTO `content` VALUES ('1','手表','https://img11.360buyimg.com/n7/jfs/t12583/150/1406285634/229941/cfc46d24/5a1fc800Nf12cdaee.jpg','男士','商务佩戴','1888','seller');
 INSERT INTO `content` VALUES ('2','衬衣','https://img11.360buyimg.com/n8/jfs/t19762/68/1498525183/124627/2b4fe1e0/5acc9e1fNf6f060fe.jpg','男士休闲，春季新款','1790','seller');
