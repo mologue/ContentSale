@@ -42,7 +42,7 @@
 
 <#include "/include/footer.ftl">
 <#--<script type="text/javascript" src="/js/md5.js"></script>-->
-<script type="text/javascript" src="/js/md5.js"></script>
+<script type="text/javascript" src="/js/sha.js"></script>
 <script type="text/javascript" src="/js/global.js"></script>
 <script type="text/javascript" src="/js/register.js"></script>
 </body>

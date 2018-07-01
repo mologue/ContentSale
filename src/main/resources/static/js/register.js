@@ -13,7 +13,7 @@
             loginForm.addEventListener('submit',function(e){
                 if(!isSubmiting && this.check()){
                     var value1 = userName.value;
-                    var value2 = md5(password.value);
+                    var value2 = SHA1(password.value);
                     var value3 = type.value;
                     isSubmiting = true;
                     loading.show();
